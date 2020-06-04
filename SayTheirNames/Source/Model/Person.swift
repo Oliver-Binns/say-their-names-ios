@@ -13,7 +13,7 @@ struct Person: Codable {
     var fullName: String
     var age: Int
     var childrenCount: Int
-    var date: Date
+    var date: String
     var location: String
     var media: [String]
     var bio: String

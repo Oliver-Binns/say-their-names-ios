@@ -76,15 +76,23 @@ class HomeController: UIViewController, ServiceReferring {
                          .init(name: "NEW YORK")]
         
         var people: [Person] = []
-        let df = DateFormatter()
-        df.dateFormat = "dd.MM.yyyy"
+        var dob: Date = Date()
+        
+        if let db = Date.dateFrom(year: 2020, month: 05, day: 25) {
+            dob = db
+        }
+        var date: String = ""
+        if let dt = self.service?.dateFormatter.formatYearMonthDayDate(dob) {
+            date = dt
+        }
+        
         for i in 0..<10 {
             people.append(Person(
                 id: "id\(i)",
                 fullName: "George Floyd \(i)",
                 age: i,
                 childrenCount: i,
-                date: df.date(from: "25.05.2020") ?? Date(),
+                date: date,
                 location: "",
                 media: ["man-in-red-jacket-1681010"],
                 bio: "",
@@ -167,5 +175,20 @@ extension HomeController: UICollectionViewDelegateFlowLayout {
             navigationController.navigationBar.isHidden = true
             present(navigationController, animated: true, completion: nil)
         }
+    }
+}
+
+extension Date {
+    static func dateFrom(year: Int, month: Int,  day: Int, hour: Int = 0, minute: Int = 0, second: Int = 0) -> Date? {
+        var components = DateComponents()
+        components.year = year
+        components.month = month
+        components.day = day
+        components.hour = hour
+        components.minute = minute
+        components.second = second
+        components.timeZone = Calendar.current.timeZone
+
+        return Calendar.current.date(from: components)
     }
 }
