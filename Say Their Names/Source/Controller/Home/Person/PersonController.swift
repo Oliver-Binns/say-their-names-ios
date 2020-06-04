@@ -11,11 +11,15 @@ import UIKit
 enum PersonCellType: String {
     case photo
     case info
+    case story
+    case outcome
     
     var identifier: String {
         switch self {
         case .photo: return "PersonCellType_Photo"
         case .info: return "PersonCellType_Info"
+        case .story: return "PersonCellType_Story"
+        case .outcome: return "PersonCellType_Outcome"
         }
     }
     
@@ -23,6 +27,8 @@ enum PersonCellType: String {
         switch self {
         case .photo: return "PersonCellType_Photo"
         case .info: return "PersonCellType_Info"
+        case .story: return "PersonCellType_Story"
+        case .outcome: return "PersonCellType_Outcome"
         }
     }
     
@@ -32,7 +38,10 @@ enum PersonCellType: String {
             PersonPhotoTableViewCell.register(to: tableView, identifier: identifier)
         case .info:
             PersonInfoTableViewCell.register(to: tableView, identifier: identifier)
-     
+        case .story:
+            PersonOverviewTableViewCell.register(to: tableView, identifier: identifier)
+        case .outcome:
+            PersonOverviewTableViewCell.register(to: tableView, identifier: identifier)
         }
     }
 }
@@ -47,7 +56,7 @@ class PersonController: BaseViewController {
     var sareArea: UILayoutGuide!
     
     var cellCollectionTypes: [PersonCellType] = {
-        return [.photo, .info]
+        return [.photo, .info, .story, .outcome]
     }()
     
     override func viewDidLoad() {
@@ -93,6 +102,8 @@ class PersonController: BaseViewController {
         
         PersonCellType.photo.register(to: tableView)
         PersonCellType.info.register(to: tableView)
+        PersonCellType.story.register(to: tableView)
+        PersonCellType.outcome.register(to: tableView)
     }
     
 //    @IBAction func didPressCloseButton() {
@@ -116,6 +127,7 @@ extension PersonController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellType = cellCollectionTypes[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellType.identifier, for: indexPath)
+        
         return cell
     }
     
@@ -124,6 +136,7 @@ extension PersonController: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
             case .photo: return 520
             case .info: return 180
+            case .story, .outcome: return UITableView.automaticDimension
         }
     }
 }
