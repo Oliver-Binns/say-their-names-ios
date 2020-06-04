@@ -8,6 +8,35 @@
 
 import UIKit
 
+enum PersonCellType: String {
+    case photo
+    case info
+    
+    var identifier: String {
+        switch self {
+        case .photo: return "PersonCellType_Photo"
+        case .info: return "PersonCellType_Info"
+        }
+    }
+    
+    var accessibilityIdentifier: String {
+        switch self {
+        case .photo: return "PersonCellType_Photo"
+        case .info: return "PersonCellType_Info"
+        }
+    }
+    
+    func register(to tableView: UITableView) {
+        switch self {
+        case .photo:
+            PersonPhotoTableViewCell.register(to: tableView, identifier: identifier)
+        default:
+            break
+        }
+    }
+}
+
+
 class PersonController: BaseViewController {
 
 //    private let personView = PersonView()
@@ -45,6 +74,8 @@ class PersonController: BaseViewController {
     }
     
     private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -54,6 +85,8 @@ class PersonController: BaseViewController {
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
         ])
+        
+        PersonCellType.photo.register(to: tableView)
     }
     
 //    @IBAction func didPressCloseButton() {
@@ -66,4 +99,20 @@ class PersonController: BaseViewController {
 //        navigationController?.pushViewController(personDetailsController, animated: true)
 //      }
     
+}
+
+
+extension PersonController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let photoCell = tableView.dequeueReusableCell(withIdentifier: PersonCellType.photo.identifier, for: indexPath)
+        return photoCell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 520
+    }
 }
