@@ -13,6 +13,7 @@ enum PersonCellType: String {
     case info
     case story
     case outcome
+    case news
     
     var identifier: String {
         switch self {
@@ -20,6 +21,7 @@ enum PersonCellType: String {
         case .info: return "PersonCellType_Info"
         case .story: return "PersonCellType_Story"
         case .outcome: return "PersonCellType_Outcome"
+        case .news: return "PersonCellType_News"
         }
     }
     
@@ -29,6 +31,7 @@ enum PersonCellType: String {
         case .info: return "PersonCellType_Info"
         case .story: return "PersonCellType_Story"
         case .outcome: return "PersonCellType_Outcome"
+        case .news: return "PersonCellType_News"
         }
     }
     
@@ -42,6 +45,8 @@ enum PersonCellType: String {
             PersonOverviewTableViewCell.register(to: tableView, identifier: identifier)
         case .outcome:
             PersonOverviewTableViewCell.register(to: tableView, identifier: identifier)
+        case .news:
+            PersonNewsTableViewCell.register(to: tableView, identifier: identifier)
         }
     }
 }
@@ -56,7 +61,7 @@ class PersonController: BaseViewController {
     var sareArea: UILayoutGuide!
     
     var cellCollectionTypes: [PersonCellType] = {
-        return [.photo, .info, .story, .outcome]
+        return [.photo, .info, .story, .outcome, .news]
     }()
     
     override func viewDidLoad() {
@@ -105,6 +110,7 @@ class PersonController: BaseViewController {
         PersonCellType.info.register(to: tableView)
         PersonCellType.story.register(to: tableView)
         PersonCellType.outcome.register(to: tableView)
+        PersonCellType.news.register(to: tableView)
     }
     
 //    @IBAction func didPressCloseButton() {
@@ -149,6 +155,7 @@ extension PersonController: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
             case .photo: return 520
             case .info: return 160
+            case .news: return 270
             case .story, .outcome: return UITableView.automaticDimension
         }
     }
