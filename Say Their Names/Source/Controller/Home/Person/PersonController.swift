@@ -12,19 +12,21 @@ class PersonController: BaseViewController {
 
 //    private let personView = PersonView()
 
-    var tableView: UITableView = {
-        let view = UITableView(frame: .zero)
-        return view
-    }()
+    var tableView: UITableView = UITableView(frame: .zero)
+    
+    var sareArea: UILayoutGuide!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupNavigationBarItems()
-        
         view.accessibilityIdentifier = "personView"
-        tableView.frame = self.view.bounds
-        self.view = tableView
+
+    }
+    
+    override func loadView() {
+        super.loadView()
+        sareArea = view.layoutMarginsGuide
+        setupNavigationBarItems()
+        setupTableView()
     }
     
     private func setupNavigationBarItems() {
@@ -42,6 +44,17 @@ class PersonController: BaseViewController {
         navigationController?.navigationBar.barTintColor = .black
     }
     
+    private func setupTableView() {
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
+            tableView.topAnchor.constraint(equalTo: sareArea.topAnchor, constant: 0),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+        ])
+    }
     
 //    @IBAction func didPressCloseButton() {
 //        self.dismiss(animated: true, completion: nil)
