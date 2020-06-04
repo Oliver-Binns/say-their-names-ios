@@ -158,7 +158,6 @@ extension HomeController: UICollectionViewDelegateFlowLayout {
             let personController = PersonController(service: service)
             
             let navigationController = UINavigationController(rootViewController: personController)
-            navigationController.navigationBar.isHidden = true
             present(navigationController, animated: true, completion: nil)
         }
     }
