@@ -29,7 +29,7 @@ class PersonInfoTableViewCell: UITableViewCell {
     }()
     
     lazy var extraInfoStack: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [ageContainerStack, childrenContainerStack, locationContainerStack])
+        let view = UIStackView(arrangedSubviews: [ageContainerStack, horizontalSeparatorView, childrenContainerStack, horizontalSeparatorView, locationContainerStack])
         view.distribution = .fill
         view.alignment = .top
         view.axis = .horizontal
@@ -38,7 +38,7 @@ class PersonInfoTableViewCell: UITableViewCell {
     }()
        
     lazy var nameContainerStack: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [nameLabel, separator1])
+        let view = UIStackView(arrangedSubviews: [nameLabel, verticalSeparatorView])
         view.axis = .vertical
         view.distribution = .fill
         view.alignment = .leading
@@ -150,7 +150,13 @@ class PersonInfoTableViewCell: UITableViewCell {
         return label
     }()
     
-    lazy var separator1: UIView = {
+    lazy var verticalSeparatorView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = UIColor(red: 196/255.0, green: 196/255.0, blue: 196/255.0, alpha: 0.4)
+        return view
+    }()
+    
+    lazy var horizontalSeparatorView: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = UIColor(red: 196/255.0, green: 196/255.0, blue: 196/255.0, alpha: 0.4)
         return view
@@ -180,8 +186,11 @@ class PersonInfoTableViewCell: UITableViewCell {
             childrenContainerStack.widthAnchor.constraint(equalToConstant: 90),
             locationContainerStack.widthAnchor.constraint(greaterThanOrEqualToConstant: 50),
             
-            separator1.widthAnchor.constraint(equalToConstant: 150),
-            separator1.heightAnchor.constraint(equalToConstant: 1)
+            verticalSeparatorView.widthAnchor.constraint(equalToConstant: 150),
+            verticalSeparatorView.heightAnchor.constraint(equalToConstant: 1),
+            
+            horizontalSeparatorView.widthAnchor.constraint(equalToConstant: 1),
+            horizontalSeparatorView.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
 }
