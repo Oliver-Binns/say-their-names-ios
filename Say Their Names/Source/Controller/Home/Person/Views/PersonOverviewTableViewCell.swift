@@ -59,11 +59,11 @@ class PersonOverviewTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-            stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
             stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
             stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
             
-            titleLabel.heightAnchor.constraint(equalToConstant: 50)
+            titleLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
     

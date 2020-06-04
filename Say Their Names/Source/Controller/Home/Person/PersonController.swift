@@ -90,8 +90,9 @@ class PersonController: BaseViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
+        view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
@@ -128,6 +129,18 @@ extension PersonController: UITableViewDelegate, UITableViewDataSource {
         let cellType = cellCollectionTypes[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellType.identifier, for: indexPath)
         
+        if cellType == .story {
+            let storyCell = cell as! PersonOverviewTableViewCell
+            storyCell.setupCell(title: "THEIR STORY", description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturiasdlnalkd")
+            return storyCell
+        }
+        
+        if cellType == .outcome {
+            let overviewCell = cell as! PersonOverviewTableViewCell
+            overviewCell.setupCell(title: "OUTCOME", description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturiasdlnalkd")
+            return overviewCell
+        }
+        
         return cell
     }
     
@@ -135,7 +148,7 @@ extension PersonController: UITableViewDelegate, UITableViewDataSource {
         let cellType = cellCollectionTypes[indexPath.row]
         switch cellType {
             case .photo: return 520
-            case .info: return 180
+            case .info: return 160
             case .story, .outcome: return UITableView.automaticDimension
         }
     }

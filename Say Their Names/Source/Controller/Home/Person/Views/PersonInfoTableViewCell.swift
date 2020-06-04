@@ -169,7 +169,7 @@ class PersonInfoTableViewCell: UITableViewCell {
     private func setupLayout() {
         containerStack.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(containerStack)
-            
+        
         NSLayoutConstraint.activate([
             containerStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
             containerStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
