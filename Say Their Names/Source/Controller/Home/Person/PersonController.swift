@@ -30,8 +30,9 @@ enum PersonCellType: String {
         switch self {
         case .photo:
             PersonPhotoTableViewCell.register(to: tableView, identifier: identifier)
-        default:
-            break
+        case .info:
+            PersonInfoTableViewCell.register(to: tableView, identifier: identifier)
+     
         }
     }
 }
@@ -44,6 +45,10 @@ class PersonController: BaseViewController {
     var tableView: UITableView = UITableView(frame: .zero)
     
     var sareArea: UILayoutGuide!
+    
+    var cellCollectionTypes: [PersonCellType] = {
+        return [.photo, .info]
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,6 +92,7 @@ class PersonController: BaseViewController {
         ])
         
         PersonCellType.photo.register(to: tableView)
+        PersonCellType.info.register(to: tableView)
     }
     
 //    @IBAction func didPressCloseButton() {
@@ -104,15 +110,20 @@ class PersonController: BaseViewController {
 
 extension PersonController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return cellCollectionTypes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let photoCell = tableView.dequeueReusableCell(withIdentifier: PersonCellType.photo.identifier, for: indexPath)
-        return photoCell
+        let cellType = cellCollectionTypes[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellType.identifier, for: indexPath)
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 520
+        let cellType = cellCollectionTypes[indexPath.row]
+        switch cellType {
+            case .photo: return 520
+            case .info: return 180
+        }
     }
 }
