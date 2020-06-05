@@ -180,7 +180,7 @@ extension PersonController: UITableViewDelegate, UITableViewDataSource {
             case .photo: return 520
             case .info: return 160
             case .news: return 340
-            case .medias: return 250
+            case .medias: return 270
             case .story, .outcome: return UITableView.automaticDimension
         }
     }

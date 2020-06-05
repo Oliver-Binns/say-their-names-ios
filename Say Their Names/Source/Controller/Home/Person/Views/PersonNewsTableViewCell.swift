@@ -50,8 +50,8 @@ class PersonNewsTableViewCell: UITableViewCell {
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout() 
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 2.0
-        layout.minimumInteritemSpacing = 5.0
+        layout.minimumLineSpacing = 15.0
+        layout.minimumInteritemSpacing = 1.0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.alwaysBounceHorizontal = true
