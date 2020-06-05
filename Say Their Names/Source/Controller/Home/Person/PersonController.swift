@@ -8,12 +8,12 @@
 
 import UIKit
 
-enum PersonCellType: String {
+enum PersonCellType: Equatable {
     case photo
     case info
     case story
     case outcome
-    case news
+    case news([Person])
     
     var identifier: String {
         switch self {
@@ -49,6 +49,14 @@ enum PersonCellType: String {
             PersonNewsTableViewCell.register(to: tableView, identifier: identifier)
         }
     }
+    
+    static var allCases: [PersonCellType] {
+        return [.photo, .info, .story, .outcome, .news([])]
+    }
+    
+    static func == (lhs: PersonCellType, rhs: PersonCellType) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
 }
 
 
@@ -61,7 +69,7 @@ class PersonController: BaseViewController {
     var sareArea: UILayoutGuide!
     
     var cellCollectionTypes: [PersonCellType] = {
-        return [.photo, .info, .story, .outcome, .news]
+        return [.photo, .info, .story, .outcome, .news([])]
     }()
     
     override func viewDidLoad() {
@@ -92,6 +100,10 @@ class PersonController: BaseViewController {
         navigationController?.navigationBar.barTintColor = .black
     }
     
+    private func registerCells(to tableView: UITableView) {
+        PersonCellType.allCases.forEach { $0.register(to: tableView) }
+    }
+    
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -106,11 +118,7 @@ class PersonController: BaseViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
         ])
         
-        PersonCellType.photo.register(to: tableView)
-        PersonCellType.info.register(to: tableView)
-        PersonCellType.story.register(to: tableView)
-        PersonCellType.outcome.register(to: tableView)
-        PersonCellType.news.register(to: tableView)
+        registerCells(to: tableView)
     }
     
 //    @IBAction func didPressCloseButton() {
@@ -135,19 +143,23 @@ extension PersonController: UITableViewDelegate, UITableViewDataSource {
         let cellType = cellCollectionTypes[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: cellType.identifier, for: indexPath)
         
-        if cellType == .story {
+        switch cellType {
+        case .story:
             let storyCell = cell as! PersonOverviewTableViewCell
             storyCell.setupCell(title: "THEIR STORY", description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturiasdlnalkd")
             return storyCell
-        }
-        
-        if cellType == .outcome {
+        case .outcome:
             let overviewCell = cell as! PersonOverviewTableViewCell
             overviewCell.setupCell(title: "OUTCOME", description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturiasdlnalkd")
             return overviewCell
+        case let .news(news):
+            let newsCell = cell as! PersonNewsTableViewCell
+            newsCell.cellDelegate = self
+            newsCell.updateCellWithNews(news)
+            return cell
+        default:
+            return cell
         }
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -155,8 +167,15 @@ extension PersonController: UITableViewDelegate, UITableViewDataSource {
         switch cellType {
             case .photo: return 520
             case .info: return 160
-            case .news: return 270
+            case .news: return 340
             case .story, .outcome: return UITableView.automaticDimension
         }
+    }
+}
+
+extension PersonController: CollectionViewCellDelegate {
+    
+    func collectionView(collectionviewcell: UICollectionViewCell?, index: Int, didTappedInTableViewCell: UITableViewCell) {
+        print("\(index) tapped")
     }
 }
