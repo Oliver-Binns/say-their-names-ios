@@ -17,6 +17,23 @@ protocol CollectionViewCellDelegate: class {
     // other delegate methods that you can define to perform action in viewcontroller
 }
 
+
+// Re-using `PersonNewsTableViewCell` to present media table view cell
+typealias PersonMediaTableViewCell = PersonNewsTableViewCell
+
+
+enum PersonNewsCellType: String {
+    case news
+    case medias
+    
+    var identifier: String {
+        switch self {
+        case .news: return "Cell_News"
+        case .medias: return "Cell_Medias"
+        }
+    }
+}
+
 class PersonNewsTableViewCell: UITableViewCell {
 
     lazy var titleLabel: UILabel = {
@@ -45,17 +62,17 @@ class PersonNewsTableViewCell: UITableViewCell {
     weak var cellDelegate: CollectionViewCellDelegate?
     var news: [Person]?
     
+    private var cellType: PersonNewsCellType = PersonNewsCellType.news
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
          super.init(style: style, reuseIdentifier: reuseIdentifier)
          backgroundColor = .white
          setupLayout()
-         setupCollectionView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     private func setupLayout() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -77,11 +94,20 @@ class PersonNewsTableViewCell: UITableViewCell {
         ])
     }
     
-    private func setupCollectionView() {
+    // Updates current cell content views
+    private func updateCellViews() {
+        titleLabel.text = (cellType == PersonNewsCellType.medias) ? "Media" : "News"
+    }
+    
+    // Registers collection view cells and update current cell content views
+    public func registerCell(with cell: UICollectionViewCell.Type, type: PersonNewsCellType) {
         collectionView.delegate = self
         collectionView.dataSource = self
-        PersonNewsCollectionViewCell.register(to: collectionView, identifier: "collectionviewcellid")
+        cellType = type
+        cell.register(to: collectionView, identifier: type.identifier)
+        updateCellViews()
     }
+    
 }
 
 
@@ -89,6 +115,11 @@ extension PersonNewsTableViewCell: UICollectionViewDelegate, UICollectionViewDat
     
     // The data we passed from the TableView send them to the CollectionView Model
     func updateCellWithNews(_ news: [Person]) {
+        self.news = news
+        self.collectionView.reloadData()
+    }
+    
+    func updateCellWithMedias(_ news: [Person]) {
         self.news = news
         self.collectionView.reloadData()
     }
@@ -103,7 +134,7 @@ extension PersonNewsTableViewCell: UICollectionViewDelegate, UICollectionViewDat
     
     // Set the data for each cell (color and color name)
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionviewcellid", for: indexPath) as! PersonNewsCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.identifier, for: indexPath)
         return cell
     }
     
@@ -117,7 +148,7 @@ extension PersonNewsTableViewCell: UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as? PersonNewsCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath)
         self.cellDelegate?.collectionView(collectionviewcell: cell, index: indexPath.item, didTappedInTableViewCell: self)
     }
 }

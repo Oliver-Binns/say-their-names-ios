@@ -14,6 +14,7 @@ enum PersonCellType: Equatable {
     case story
     case outcome
     case news([Person])
+    case medias([Person])
     
     var identifier: String {
         switch self {
@@ -22,6 +23,7 @@ enum PersonCellType: Equatable {
         case .story: return "PersonCellType_Story"
         case .outcome: return "PersonCellType_Outcome"
         case .news: return "PersonCellType_News"
+        case .medias: return "PersonCellType_Media"
         }
     }
     
@@ -32,6 +34,7 @@ enum PersonCellType: Equatable {
         case .story: return "PersonCellType_Story"
         case .outcome: return "PersonCellType_Outcome"
         case .news: return "PersonCellType_News"
+        case .medias: return "PersonCellType_Media"
         }
     }
     
@@ -47,11 +50,13 @@ enum PersonCellType: Equatable {
             PersonOverviewTableViewCell.register(to: tableView, identifier: identifier)
         case .news:
             PersonNewsTableViewCell.register(to: tableView, identifier: identifier)
+        case .medias:
+            PersonNewsTableViewCell.register(to: tableView, identifier: identifier)
         }
     }
     
     static var allCases: [PersonCellType] {
-        return [.photo, .info, .story, .outcome, .news([])]
+        return [.photo, .info, .story, .outcome, .news([]), .medias([])]
     }
     
     static func == (lhs: PersonCellType, rhs: PersonCellType) -> Bool {
@@ -69,7 +74,7 @@ class PersonController: BaseViewController {
     var sareArea: UILayoutGuide!
     
     var cellCollectionTypes: [PersonCellType] = {
-        return [.photo, .info, .story, .outcome, .news([])]
+        return [.photo, .info, .story, .outcome, .news([]), .medias([])]
     }()
     
     override func viewDidLoad() {
@@ -155,6 +160,13 @@ extension PersonController: UITableViewDelegate, UITableViewDataSource {
         case let .news(news):
             let newsCell = cell as! PersonNewsTableViewCell
             newsCell.cellDelegate = self
+            newsCell.registerCell(with: PersonNewsCollectionViewCell.self, type: PersonNewsCellType.news)
+            newsCell.updateCellWithNews(news)
+            return cell
+        case let .medias(news):
+            let newsCell = cell as! PersonMediaTableViewCell
+            newsCell.cellDelegate = self
+            newsCell.registerCell(with: PersonMediaCollectionViewCell.self, type: PersonNewsCellType.medias)
             newsCell.updateCellWithNews(news)
             return cell
         default:
@@ -168,6 +180,7 @@ extension PersonController: UITableViewDelegate, UITableViewDataSource {
             case .photo: return 520
             case .info: return 160
             case .news: return 340
+            case .medias: return 250
             case .story, .outcome: return UITableView.automaticDimension
         }
     }
