@@ -82,14 +82,14 @@ class PersonNewsTableViewCell: UITableViewCell {
         contentView.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             titleLabel.heightAnchor.constraint(equalToConstant: 15),
             
-            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
         ])
     }

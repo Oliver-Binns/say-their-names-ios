@@ -75,7 +75,7 @@ class PersonInfoTableViewCell: UITableViewCell {
     
     lazy var nameLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.text = "MISS MARYAM"
+        label.text = "FIRSTNAME LAST"
         label.textColor = UIColor(red: 16/255.0, green: 16/255.0, blue: 16/255.0, alpha: 1)
         label.font = UIFont(name: "Karla-Bold", size: 21)
         label.numberOfLines = 0
@@ -177,8 +177,8 @@ class PersonInfoTableViewCell: UITableViewCell {
         contentView.addSubview(containerStack)
         
         NSLayoutConstraint.activate([
-            containerStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-            containerStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            containerStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            containerStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             containerStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
             containerStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
             

@@ -58,9 +58,9 @@ class PersonOverviewTableViewCell: UITableViewCell {
         contentView.addSubview(stack)
         
         NSLayoutConstraint.activate([
-            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
-            stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
             
             titleLabel.heightAnchor.constraint(equalToConstant: 20)
